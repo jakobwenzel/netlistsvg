@@ -24,7 +24,7 @@ export function render(skinData: string, yosysNetlist: Yosys.Netlist,
     let promise;
     // if we already have a layout then use it
     if (elkData) {
-        promise = new Promise((resolve) => {
+        promise = new Promise<void>((resolve) => {
             drawModule(elkData, flatModule);
             resolve();
         });
