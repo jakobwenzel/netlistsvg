@@ -450,8 +450,12 @@ export default class Cell {
                 portClone[1].id = 'port_' + port.parentNode.Key + '~' + port.Key;
                 tempclone.push(portClone);
             });
-            // first child of generic must be a text node.
-            tempclone[2][2] = this.type;
+            // first or second child of generic must be a text node.
+            if (tempclone[2][0]=='text') {
+              tempclone[2][2] = this.type;
+            } else if (tempclone[3][0]=='text') {
+              tempclone[3][2] = this.type;
+            }
         } else if (template[1]['s:type'] === 'sub_odd' || template[1]['s:type'] === 'sub_even') {
             const subModule = drawSubModule(cell, this.subModule);
             tempclone[3][1].width = subModule[1].width;
