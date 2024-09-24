@@ -126,6 +126,9 @@ var Skin;
                 else if (node.name === 's:layoutEngine') {
                     vals.layoutEngine = node.attr;
                 }
+                else if (node.name === 's:createLabels') {
+                    vals.createLabels = node.attr.val;
+                }
             },
         });
         if (!vals.layoutEngine) {
@@ -134,5 +137,11 @@ var Skin;
         return vals;
     }
     Skin.getProperties = getProperties;
+    function getCreateLabels() {
+        var props = getProperties();
+        var val = (props === null || props === void 0 ? void 0 : props.createLabels) || "true";
+        return val === "true";
+    }
+    Skin.getCreateLabels = getCreateLabels;
 })(Skin = exports.Skin || (exports.Skin = {}));
 exports.default = Skin;

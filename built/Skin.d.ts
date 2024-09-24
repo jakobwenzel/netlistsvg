@@ -12,6 +12,7 @@ export declare namespace Skin {
         [attr: string]: boolean | string | number | ElkModel.LayoutOptions;
     }
     export function getProperties(): SkinProperties;
+    export function getCreateLabels(): boolean;
     export {};
 }
 export default Skin;

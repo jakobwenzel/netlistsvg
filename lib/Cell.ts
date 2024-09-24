@@ -205,10 +205,25 @@ export default class Cell {
         return Skin.findSkinType(this.type, this.depth);
     }
 
+    private findPropertyType(val: string){
+        if (!isNaN(Number(val))) {
+            return Number(val);
+        }
+        if (val === 'true') {
+            return true;
+        }
+        if (val === 'false') {
+            return false;
+        }
+        return val;
+    }
+
     public buildElkChild(): ElkModel.Cell {
+        const createLabels = Skin.getCreateLabels();
         const template = this.getTemplate();
         const type: string = template[1]['s:type'];
         const layoutAttrs = { 'org.eclipse.elk.portConstraints': 'FIXED_POS' };
+        const layoutAttrsSide = { 'org.eclipse.elk.portConstraints': 'FIXED_SIDE' };
         let fixedPosX = null;
         let fixedPosY = null;
         for (const attr in this.attributes) {
@@ -221,7 +236,9 @@ export default class Cell {
                     fixedPosY = this.attributes[attr];
                     continue;
                 }
-                layoutAttrs[attr] = this.attributes[attr];
+                const withType = this.findPropertyType(this.attributes[attr]);
+                layoutAttrs[attr] = withType;
+                layoutAttrsSide[attr] = withType;
             }
         }
         if (type === 'join' ||
@@ -230,9 +247,9 @@ export default class Cell {
             const inTemplates: any[] = Skin.getPortsWithPrefix(template, 'in');
             const outTemplates: any[] = Skin.getPortsWithPrefix(template, 'out');
             const inPorts = this.inputPorts.map((ip, i) =>
-                ip.getGenericElkPort(i, inTemplates, 'in'));
+                ip.getGenericElkPort(i, inTemplates, 'in', createLabels));
             const outPorts = this.outputPorts.map((op, i) =>
-                op.getGenericElkPort(i, outTemplates, 'out'));
+                op.getGenericElkPort(i, outTemplates, 'out', createLabels));
             const cell: ElkModel.Cell = {
                 id: this.parent + '.' + this.key,
                 width: Number(template[1]['s:width']),
@@ -260,13 +277,13 @@ export default class Cell {
             const inTemplates: any[] = Skin.getPortsWithPrefix(template, 'in');
             const outTemplates: any[] = Skin.getPortsWithPrefix(template, 'out');
             const inPorts = this.inputPorts.map((ip, i) =>
-                ip.getGenericElkPort(i, inTemplates, 'in'));
+                ip.getGenericElkPort(i, inTemplates, 'in', createLabels));
             const outPorts = this.outputPorts.map((op, i) =>
-                op.getGenericElkPort(i, outTemplates, 'out'));
+                op.getGenericElkPort(i, outTemplates, 'out', createLabels));
             const elk = buildElkGraph(this.subModule);
             const cell: ElkModel.Cell = {
                 id: this.parent + '.' + this.key,
-                layoutOptions: {'org.eclipse.elk.portConstraints': 'FIXED_SIDE'},
+                layoutOptions: layoutAttrsSide,
                 labels: [],
                 ports: inPorts.concat(outPorts),
                 children: [],

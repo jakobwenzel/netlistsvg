@@ -45,6 +45,7 @@ export default class Cell {
     collectPortsByDirection(ridersByNet: NameToPorts, driversByNet: NameToPorts, lateralsByNet: NameToPorts, genericsLaterals: boolean): void;
     getValueAttribute(): string;
     getTemplate(): any;
+    private findPropertyType;
     buildElkChild(): ElkModel.Cell;
     render(cell: ElkModel.Cell): onml.Element;
     private addLabels;

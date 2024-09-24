@@ -199,11 +199,25 @@ var Cell = /** @class */ (function () {
     Cell.prototype.getTemplate = function () {
         return Skin_1.default.findSkinType(this.type, this.depth);
     };
+    Cell.prototype.findPropertyType = function (val) {
+        if (!isNaN(Number(val))) {
+            return Number(val);
+        }
+        if (val === 'true') {
+            return true;
+        }
+        if (val === 'false') {
+            return false;
+        }
+        return val;
+    };
     Cell.prototype.buildElkChild = function () {
         var _this = this;
+        var createLabels = Skin_1.default.getCreateLabels();
         var template = this.getTemplate();
         var type = template[1]['s:type'];
         var layoutAttrs = { 'org.eclipse.elk.portConstraints': 'FIXED_POS' };
+        var layoutAttrsSide = { 'org.eclipse.elk.portConstraints': 'FIXED_SIDE' };
         var fixedPosX = null;
         var fixedPosY = null;
         for (var attr in this.attributes) {
@@ -216,7 +230,9 @@ var Cell = /** @class */ (function () {
                     fixedPosY = this.attributes[attr];
                     continue;
                 }
-                layoutAttrs[attr] = this.attributes[attr];
+                var withType = this.findPropertyType(this.attributes[attr]);
+                layoutAttrs[attr] = withType;
+                layoutAttrsSide[attr] = withType;
             }
         }
         if (type === 'join' ||
@@ -225,10 +241,10 @@ var Cell = /** @class */ (function () {
             var inTemplates_1 = Skin_1.default.getPortsWithPrefix(template, 'in');
             var outTemplates_1 = Skin_1.default.getPortsWithPrefix(template, 'out');
             var inPorts = this.inputPorts.map(function (ip, i) {
-                return ip.getGenericElkPort(i, inTemplates_1, 'in');
+                return ip.getGenericElkPort(i, inTemplates_1, 'in', createLabels);
             });
             var outPorts = this.outputPorts.map(function (op, i) {
-                return op.getGenericElkPort(i, outTemplates_1, 'out');
+                return op.getGenericElkPort(i, outTemplates_1, 'out', createLabels);
             });
             var cell = {
                 id: this.parent + '.' + this.key,
@@ -257,15 +273,15 @@ var Cell = /** @class */ (function () {
             var inTemplates_2 = Skin_1.default.getPortsWithPrefix(template, 'in');
             var outTemplates_2 = Skin_1.default.getPortsWithPrefix(template, 'out');
             var inPorts_1 = this.inputPorts.map(function (ip, i) {
-                return ip.getGenericElkPort(i, inTemplates_2, 'in');
+                return ip.getGenericElkPort(i, inTemplates_2, 'in', createLabels);
             });
             var outPorts = this.outputPorts.map(function (op, i) {
-                return op.getGenericElkPort(i, outTemplates_2, 'out');
+                return op.getGenericElkPort(i, outTemplates_2, 'out', createLabels);
             });
             var elk = (0, elkGraph_1.buildElkGraph)(this.subModule);
             var cell_1 = {
                 id: this.parent + '.' + this.key,
-                layoutOptions: { 'org.eclipse.elk.portConstraints': 'FIXED_SIDE' },
+                layoutOptions: layoutAttrsSide,
                 labels: [],
                 ports: inPorts_1.concat(outPorts),
                 children: [],

@@ -75,6 +75,7 @@ export class Port {
         index: number,
         templatePorts: any[],
         dir: string,
+        createLabels: boolean
     ): ElkModel.Port {
         const nkey = this.parentNode.parent + '.' + this.parentNode.Key;
         const type = this.parentNode.getTemplate()[1]['s:type'];
@@ -88,14 +89,16 @@ export class Port {
             };
 
             if ((type === 'generic' || type === 'sub_even' || type === 'sub_odd' || type === 'join') && dir === 'in') {
-                ret.labels = [{
-                    id: nkey + '.' + this.key + '.label',
-                    text: this.key,
-                    x: Number(templatePorts[0][2][1].x) - 10,
-                    y: Number(templatePorts[0][2][1].y) - 6,
-                    width: (6 * this.key.length),
-                    height: 11,
-                }];
+                if (createLabels) {
+                    ret.labels = [{
+                        id: nkey + '.' + this.key + '.label',
+                        text: this.key,
+                        x: Number(templatePorts[0][2][1].x) - 10,
+                        y: Number(templatePorts[0][2][1].y) - 6,
+                        width: (6 * this.key.length),
+                        height: 11,
+                    }];
+                }
                 if (type === 'sub_even' || type === 'sub_odd') {
                     ret.layoutOptions = {'org.eclipse.elk.port.side': 'WEST'};
                 }
@@ -103,14 +106,16 @@ export class Port {
 
             if ((type === 'generic' || type === 'sub_even' || type === 'sub_odd' || type === 'split')
                  && dir === 'out') {
-                ret.labels = [{
-                    id: nkey + '.' + this.key + '.label',
-                    text: this.key,
-                    x: Number(templatePorts[0][2][1].x) - 10,
-                    y: Number(templatePorts[0][2][1].y) - 6,
-                    width: (6 * this.key.length),
-                    height: 11,
-                }];
+                if (createLabels) {
+                    ret.labels = [{
+                        id: nkey + '.' + this.key + '.label',
+                        text: this.key,
+                        x: Number(templatePorts[0][2][1].x) - 10,
+                        y: Number(templatePorts[0][2][1].y) - 6,
+                        width: (6 * this.key.length),
+                        height: 11,
+                    }];
+                }
                 if (type === 'sub_even' || type === 'sub_odd') {
                     ret.layoutOptions = {'org.eclipse.elk.port.side': 'EAST'};
                 }
@@ -131,14 +136,16 @@ export class Port {
                 y: (index) * gap + Number(templatePorts[0][1]['s:y']),
             };
             if (type === 'generic' || type === 'sub_even' || type === 'sub_odd') {
-                ret.labels = [{
-                    id: nkey + '.' + this.key + '.label',
-                    text: this.key,
-                    x: Number(templatePorts[0][2][1].x) - 10,
-                    y: Number(templatePorts[0][2][1].y) - 6,
-                    width: (6 * this.key.length),
-                    height: 11,
-                }];
+                if (createLabels) {
+                    ret.labels = [{
+                        id: nkey + '.' + this.key + '.label',
+                        text: this.key,
+                        x: Number(templatePorts[0][2][1].x) - 10,
+                        y: Number(templatePorts[0][2][1].y) - 6,
+                        width: (6 * this.key.length),
+                        height: 11,
+                    }];
+                }
                 if (dir === 'in') {
                     ret.layoutOptions = {'org.eclipse.elk.port.side': 'WEST'};
                 }

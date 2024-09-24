@@ -126,6 +126,8 @@ export namespace Skin {
                     });
                 } else if (node.name === 's:layoutEngine') {
                     vals.layoutEngine = node.attr;
+                }else if (node.name === 's:createLabels') {
+                    vals.createLabels = node.attr.val;
                 }
             },
         });
@@ -135,6 +137,13 @@ export namespace Skin {
         }
 
         return vals;
+    }
+
+    export function getCreateLabels(): boolean {
+        const props = getProperties();
+        const val = props?.createLabels || "true";
+        return val==="true";
+
     }
 }
 export default Skin;
