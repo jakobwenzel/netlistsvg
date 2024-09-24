@@ -42,7 +42,7 @@
   },
   "homepage": "https://github.com/nturley/netlistsvg#readme",
   "devDependencies": {
-    "@types/jest": "^26.0.23",
+    "@types/jest": "^27.0.3",
     "@types/node": "^16.0.0",
     "brfs": "^2.0.2",
     "browserify": "^17.0.0",
