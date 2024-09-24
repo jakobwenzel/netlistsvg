@@ -22,9 +22,9 @@ var clone = require("clone");
 var onml = require("onml");
 var Cell = /** @class */ (function () {
     function Cell(key, type, inputPorts, outputPorts, attributes, parent, subModule, depth) {
-        var _this = this;
         if (subModule === void 0) { subModule = null; }
         if (depth === void 0) { depth = null; }
+        var _this = this;
         this.key = key;
         this.type = type;
         this.inputPorts = inputPorts;
@@ -126,28 +126,28 @@ var Cell = /** @class */ (function () {
         get: function () {
             return this.type;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Cell.prototype, "Key", {
         get: function () {
             return this.key;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Cell.prototype, "InputPorts", {
         get: function () {
             return this.inputPorts;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Cell.prototype, "OutputPorts", {
         get: function () {
             return this.outputPorts;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Cell.prototype.maxOutVal = function (atLeast) {
@@ -174,19 +174,19 @@ var Cell = /** @class */ (function () {
         this.inputPorts.forEach(function (port) {
             var isLateral = port.keyIn(lateralPids);
             if (isLateral || (template[1]['s:type'] === 'generic' && genericsLaterals)) {
-                FlatModule_1.addToDefaultDict(lateralsByNet, port.valString(), port);
+                (0, FlatModule_1.addToDefaultDict)(lateralsByNet, port.valString(), port);
             }
             else {
-                FlatModule_1.addToDefaultDict(ridersByNet, port.valString(), port);
+                (0, FlatModule_1.addToDefaultDict)(ridersByNet, port.valString(), port);
             }
         });
         this.outputPorts.forEach(function (port) {
             var isLateral = port.keyIn(lateralPids);
             if (isLateral || (template[1]['s:type'] === 'generic' && genericsLaterals)) {
-                FlatModule_1.addToDefaultDict(lateralsByNet, port.valString(), port);
+                (0, FlatModule_1.addToDefaultDict)(lateralsByNet, port.valString(), port);
             }
             else {
-                FlatModule_1.addToDefaultDict(driversByNet, port.valString(), port);
+                (0, FlatModule_1.addToDefaultDict)(driversByNet, port.valString(), port);
             }
         });
     };
@@ -262,7 +262,7 @@ var Cell = /** @class */ (function () {
             var outPorts = this.outputPorts.map(function (op, i) {
                 return op.getGenericElkPort(i, outTemplates_2, 'out');
             });
-            var elk = elkGraph_1.buildElkGraph(this.subModule);
+            var elk = (0, elkGraph_1.buildElkGraph)(this.subModule);
             var cell_1 = {
                 id: this.parent + '.' + this.key,
                 layoutOptions: { 'org.eclipse.elk.portConstraints': 'FIXED_SIDE' },
@@ -454,14 +454,15 @@ var Cell = /** @class */ (function () {
                 tempclone.push(portClone);
             });
             // first or second child of generic must be a text node.
-            if (tempclone[2][0]=='text') {
-              tempclone[2][2] = this.type;
-            } else if (tempclone[3][0]=='text') {
-              tempclone[3][2] = this.type;
+            if (tempclone[2][0] == 'text') {
+                tempclone[2][2] = this.type;
+            }
+            else if (tempclone[3][0] == 'text') {
+                tempclone[3][2] = this.type;
             }
         }
         else if (template[1]['s:type'] === 'sub_odd' || template[1]['s:type'] === 'sub_even') {
-            var subModule = drawModule_1.drawSubModule(cell, this.subModule);
+            var subModule = (0, drawModule_1.drawSubModule)(cell, this.subModule);
             tempclone[3][1].width = subModule[1].width;
             tempclone[3][1].height = subModule[1].height;
             tempclone[2][1].x = tempclone[3][1].width / 2;

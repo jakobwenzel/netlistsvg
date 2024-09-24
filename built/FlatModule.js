@@ -1,12 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.removeDups = exports.addToDefaultDict = exports.arrayToBitstring = exports.FlatModule = void 0;
 var Skin_1 = require("./Skin");
 var Cell_1 = require("./Cell");
 var _ = require("lodash");
 var FlatModule = /** @class */ (function () {
     function FlatModule(mod, name, depth, parent) {
-        var _this = this;
         if (parent === void 0) { parent = null; }
+        var _this = this;
         this.parent = parent;
         this.moduleName = name;
         var ports = _.map(mod.ports, function (port, portName) { return Cell_1.default.fromPort(port, portName, _this.moduleName); });

@@ -68,7 +68,7 @@ export default function drawModule(g: ElkModel.Graph, module: FlatModule) {
         },
     });
     const elements: onml.Element[] = [styles, ...nodes, ...lines];
-    const ret: onml.Element = ['svg', svgAttrs, ...elements];
+    const ret: onml.Element = ['svg', svgAttrs, '', ...elements];
     return onml.s(ret);
 }
 
@@ -124,7 +124,7 @@ export function drawSubModule(c: ElkModel.Cell, subModule: FlatModule) {
     svgAttrs.height = c.height.toString();
 
     const elements: onml.Element[] = [...nodes, ...lines];
-    const ret: onml.Element = ['svg', svgAttrs, ...elements];
+    const ret: onml.Element = ['svg', svgAttrs, '', ...elements];
     return ret;
 }
 
